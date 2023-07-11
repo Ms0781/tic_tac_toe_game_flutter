@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlayerScoreCard extends StatelessWidget {
-  String playerName;
-  String playScore;
+  final String playerName;
+  final String playScore;
 
 
-  PlayerScoreCard(this.playerName, this.playScore);
+  const PlayerScoreCard(this.playerName, this.playScore, {super.key});
 
   @override
   Widget build(BuildContext context) {
