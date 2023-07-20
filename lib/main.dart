@@ -34,13 +34,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -57,11 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> displayElement = ["", "", "", "", "", "", "", "", ""];
   int player1Score = 0;
   int player2Score = 0;
-  int Draw = 0;
+  int draw = 0;
   bool oTurn = true;
   int fillBoxes = 0;
-  int boxes_fill_by_player1 = 0;
-  int boxes_fill_by_player2 = 0;
+  int boxesFillByPlayer1 = 0;
+  int boxesFillByPlayer2 = 0;
   bool isGameFinished = false;
 
   @override
@@ -111,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Space(10, true),
               PlayerScoreCard("Player 2","$player2Score"),
               Space(10, true),
-              PlayerScoreCard("Draw","$Draw"),
+              PlayerScoreCard("Draw","$draw"),
               Space(10, true),
             ],
           ),
@@ -132,14 +134,14 @@ class _MyHomePageState extends State<MyHomePage> {
                        }
                        else{
                          if(oTurn){
-                           boxes_fill_by_player1++;
+                           boxesFillByPlayer1++;
                            displayElement[position] = "O";
                          }
                          else{
-                           boxes_fill_by_player2++;
+                           boxesFillByPlayer2++;
                            displayElement[position] = "X";
                          }
-                         if(boxes_fill_by_player2 >= 3 || boxes_fill_by_player1 >= 3){
+                         if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
                            checktheWinner();
                          }
                          oTurn = !oTurn;
