@@ -11,9 +11,7 @@ In this project we are creating tic-tac-toe game board so user can play that gam
 using paper and pencil.
 
 About this project : 
-
 - A home screen where whole board is design.
-- 
 
 ## Getting Started
 
