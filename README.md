@@ -12,6 +12,7 @@ using paper and pencil.
 
 About this project : 
 - A home screen where whole board is design.
+- Please create your name branch when you want add something new.
 
 ## Getting Started
 
