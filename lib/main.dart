@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                            displayElement[position] = "X";
                          }
                          if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
-                           checktheWinner();
+                           checkTheWinner();
                          }
                          oTurn = !oTurn;
                          fillBoxes++;
@@ -181,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       SignIndicationOfPlayer("Player 1", "O"),
                       SignIndicationOfPlayer("Player 2", "X")
                     ],
@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.blue,
           ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: GridView.builder(
                   shrinkWrap: true,
@@ -240,7 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
       )),
     );
   }
-   checktheWinner(){
+   checkTheWinner(){
     //for rows
     if(displayElement[0] == displayElement[1] && displayElement[0] == displayElement[2] && displayElement[0] != ""){
       declareWinner(displayElement[0]);
@@ -299,9 +299,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class SignIndicationOfPlayer extends StatelessWidget {
-  String playerName;
-  String sign;
-  SignIndicationOfPlayer(this.playerName, this.sign);
+  final String playerName;
+  final String sign;
+  const SignIndicationOfPlayer(this.playerName, this.sign, {super.key});
 
   @override
   Widget build(BuildContext context) {
