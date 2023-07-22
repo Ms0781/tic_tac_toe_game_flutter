@@ -284,8 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
         displayElement[2] != '') {
         declareWinner(displayElement[2]);
     }
-
-    if()
+    
   }
 
   declareWinner(String displayElement) {
