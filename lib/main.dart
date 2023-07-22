@@ -142,7 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
                            displayElement[position] = "X";
                          }
                          if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
-                           checktheWinner();
+                           checkTheWinner(false);
+                         }
+
+                         if(boxesFillByPlayer1 + boxesFillByPlayer2 == 8){
+                           checkTheWinner(true);
                          }
                          oTurn = !oTurn;
                          fillBoxes++;
@@ -210,7 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.blue,
           ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: GridView.builder(
                   shrinkWrap: true,
@@ -240,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
       )),
     );
   }
-   checktheWinner(){
+   checkTheWinner(bool checkForTheDraw){
     //for rows
     if(displayElement[0] == displayElement[1] && displayElement[0] == displayElement[2] && displayElement[0] != ""){
       declareWinner(displayElement[0]);
@@ -280,6 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
         displayElement[2] != '') {
         declareWinner(displayElement[2]);
     }
+
+    if()
   }
 
   declareWinner(String displayElement) {
@@ -290,9 +296,12 @@ class _MyHomePageState extends State<MyHomePage> {
           isGameFinished = true;
         });
       }
-      else{
+      else if(displayElement == "X"){
         Fluttertoast.showToast(msg: "Player 2 is Winner",toastLength: Toast.LENGTH_SHORT);
-        isGameFinished = true;
+        setState(() {
+          player2Score++;
+          isGameFinished = true;
+        });
       }
   }
 
