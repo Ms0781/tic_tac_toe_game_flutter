@@ -80,7 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return verticalLayout();
+    return OrientationBuilder(builder: (context,orientation){
+      if(orientation == Orientation.portrait){
+        return verticalLayout();
+      }else{
+        return horizontalLayout();
+      }
+    });
   }
 
   verticalLayout() {
@@ -101,101 +107,104 @@ class _MyHomePageState extends State<MyHomePage> {
           }, icon: const Icon(Icons.refresh))
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Space(10, false),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Space(10, true),
-              PlayerScoreCard("Player 1","$player1Score"),
-              Space(10, true),
-              PlayerScoreCard("Player 2","$player2Score"),
-              Space(10, true),
-              PlayerScoreCard("Draw","$draw"),
-              Space(10, true),
-            ],
-          ),
-          Space(20, false),
-          GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              itemCount: 9,
-              itemBuilder: (BuildContext context, int position) {
-                return GestureDetector(
-                  onTap: () {
-                    setState((){
-                     if(!isGameFinished){
-                       if(displayElement[position] == "X" || displayElement[position] == "O"){
-                         Fluttertoast.showToast(msg: "Invalid !!",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.red,textColor: Colors.white);
-                       }
-                       else{
-                         if(oTurn){
-                           boxesFillByPlayer1++;
-                           displayElement[position] = "O";
-                         }
-                         else{
-                           boxesFillByPlayer2++;
-                           displayElement[position] = "X";
-                         }
-                         if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
-                           checkTheWinner();
-                         }
-                         oTurn = !oTurn;
-                         fillBoxes++;
-                       }
-                     }
-                     else{
-                       Fluttertoast.showToast(msg: "Game finished",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.black,textColor: Colors.white);
-                     }
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 1),
-                      color: Colors.black,
-                    ),
-                    child: Center(
-                        child: Text(
-                      displayElement[position],
-                      style: GoogleFonts.lato(fontSize: 25,color: Colors.white),
-                    )),
-                  ),
-                );
-              }),
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black,width: 2),
-              borderRadius: const BorderRadius.all(Radius.circular(10))
-            ),
-            child: Row(
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Space(10, false),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Space(10, true),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SignIndicationOfPlayer("Player 1", "O"),
-                      SignIndicationOfPlayer("Player 2", "X")
-                    ],
-                ),
+                PlayerScoreCard("Player 1","$player1Score"),
                 Space(10, true),
-                Container(height: MediaQuery.of(context).size.height,width: 2,color: Colors.black, child: Text(
-                  oTurn ? "Player 1 turn" : "Player 2 turn",style: const TextStyle(color: Colors.black),
-                ),)
+                PlayerScoreCard("Player 2","$player2Score"),
+                Space(10, true),
+                PlayerScoreCard("Draw","$draw"),
+                Space(10, true),
               ],
             ),
-          ),
-              )
-          )
-        ],
+            Space(20, false),
+            GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: 9,
+                itemBuilder: (BuildContext context, int position) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState((){
+                        if(!isGameFinished){
+                          if(displayElement[position] == "X" || displayElement[position] == "O"){
+                            Fluttertoast.showToast(msg: "Invalid !!",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.red,textColor: Colors.white);
+                          }
+                          else{
+                            if(oTurn){
+                              boxesFillByPlayer1++;
+                              displayElement[position] = "O";
+                            }
+                            else{
+                              boxesFillByPlayer2++;
+                              displayElement[position] = "X";
+                            }
+                            if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
+                              checkTheWinner();
+                            }
+                            oTurn = !oTurn;
+                            fillBoxes++;
+                          }
+                        }
+                        else{
+                          Fluttertoast.showToast(msg: "Game finished",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.black,textColor: Colors.white);
+                        }
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        color: Colors.black,
+                      ),
+                      child: Center(
+                          child: Text(
+                            displayElement[position],
+                            style: GoogleFonts.lato(fontSize: 25,color: Colors.white),
+                          )),
+                    ),
+                  );
+                }),
+            Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black,width: 2),
+                        borderRadius: const BorderRadius.all(Radius.circular(10))
+                    ),
+                    child: Row(
+                      children: [
+                        Space(10, true),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            SignIndicationOfPlayer("Player 1", "O"),
+                            SignIndicationOfPlayer("Player 2", "X")
+                          ],
+                        ),
+                        Space(10, true),
+                        Container(height: MediaQuery.of(context).size.height,width: 2,color: Colors.black, child: Text(
+                          oTurn ? "Player 1 turn" : "Player 2 turn",style: const TextStyle(color: Colors.black),
+                        ),)
+                      ],
+                    ),
+                  ),
+                )
+            )
+          ],
+        ),
       ),
     );
   }
@@ -220,7 +229,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: 9,
                   itemBuilder: (BuildContext context, int position) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        setState((){
+                          if(!isGameFinished){
+                            if(displayElement[position] == "X" || displayElement[position] == "O"){
+                              Fluttertoast.showToast(msg: "Invalid !!",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.red,textColor: Colors.white);
+                            }
+                            else{
+                              if(oTurn){
+                                boxesFillByPlayer1++;
+                                displayElement[position] = "O";
+                              }
+                              else{
+                                boxesFillByPlayer2++;
+                                displayElement[position] = "X";
+                              }
+                              if(boxesFillByPlayer2 >= 3 || boxesFillByPlayer1 >= 3){
+                                checkTheWinner();
+                              }
+                              oTurn = !oTurn;
+                              fillBoxes++;
+                            }
+                          }
+                          else{
+                            Fluttertoast.showToast(msg: "Game finished",toastLength: Toast.LENGTH_SHORT,backgroundColor: Colors.black,textColor: Colors.white);
+                          }
+                        });
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
@@ -240,7 +275,8 @@ class _MyHomePageState extends State<MyHomePage> {
       )),
     );
   }
-   checkTheWinner(){
+
+  checkTheWinner(){
     //for rows
     if(displayElement[0] == displayElement[1] && displayElement[0] == displayElement[2] && displayElement[0] != ""){
       declareWinner(displayElement[0]);
@@ -279,6 +315,13 @@ class _MyHomePageState extends State<MyHomePage> {
         displayElement[2] == displayElement[6] &&
         displayElement[2] != '') {
         declareWinner(displayElement[2]);
+    }
+
+    if(boxesFillByPlayer1 + boxesFillByPlayer2 == 9){
+      Fluttertoast.showToast(msg: "Draw");
+      setState((){
+        isGameFinished = true;
+      });
     }
   }
 
